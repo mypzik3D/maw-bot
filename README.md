@@ -1,5 +1,5 @@
 # MaW-bot
-minimalistic and wightless bot for discord
+minimalistic and weightless bot for discord
 > ### How to use:
 > for work need install discord.py:
 > example: `pip install discord`
