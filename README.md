@@ -8,8 +8,8 @@ minimalistic and weird bot for discord
 
 > ### How to create your module:
 > minimal:
-> ```python
-imort discord
+```python
+import discord
 from discord.ext import commands
 
 def load(bot: commands.Bot): # function called 1 time
@@ -21,8 +21,8 @@ def load(bot: commands.Bot): # function called 1 time
 
 ```
 > with cycle:
-> ```python
-imort discord
+```python
+import discord
 from discord.ext import commands
 from discord.ext import tasks
 
