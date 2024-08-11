@@ -36,3 +36,5 @@ def load(bot: commands.Bot): # function called 1 time
 async def loop():
     # there write code for cycle
 ```
+> module may have variable `noload`
+> if `noload = 1` then `def load` wont start
