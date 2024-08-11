@@ -33,7 +33,7 @@ modules = load_modules_from_directory(modules_directory)
 
 def load():
 
-    sys.path.insert(0, os.path.abspath('.'))  # Добавляем корневую директорию в sys.path
+    sys.path.insert(0, os.path.abspath('.')) 
    
     for module in modules:
         flag = 0
