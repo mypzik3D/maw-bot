@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 import random
 
 # config
@@ -26,15 +27,18 @@ def check_sell(field,x,y,size):
                         count+=1
     return count
 
-def load(bot: commands.Bot):
-    @bot.tree.command(name="msgame", description="cool mini game")
-    async def msgame(interaction: discord.Interaction, size: int, bomb_count: int):
+class Cog(commands.Cog, name="minesweeper"):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @app_commands.command(name="msgame", description="cool mini game")
+    async def ms_game(self, ctx, size: int, bomb_count: int):
         if bomb_count > size*size:
-            await interaction.response.send_message("too much bomb :<")
+            await ctx.response.send_message("too much bomb :<")
         elif size <= 0:
-            await interaction.response.send_message("size field <= 0")
+            await ctx.response.send_message("size field <= 0")
         elif size > max_size:
-            await interaction.response.send_message(f"size > {max_size}")
+            await ctx.response.send_message(f"size > {max_size}")
         else:
             field = []
 
@@ -56,4 +60,4 @@ def load(bot: commands.Bot):
                 for y in range(size):
                     mes = mes+f'||{nums[field[x][y]]}||'
                 mes += '\n'
-            await interaction.response.send_message(mes)
+            await ctx.response.send_message(mes)

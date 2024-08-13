@@ -1,23 +1,29 @@
 import discord
-from discord.ext import tasks
 from discord.ext import commands
+from discord import app_commands
 
-def load(bot: commands.Bot):
-    @bot.tree.command(name="ping", description="test delay")
-    async def ping(interaction: discord.Interaction):
-        await interaction.response.send_message(f"pong! delay: {round(bot.latency * 1000)} ms")
+
+class Cog(commands.Cog, name="debug"):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @commands.command(name='sync')
+    @commands.is_owner()
+    async def slash_sync(self, ctx):
+        synced = await self.bot.tree.sync()
+        await ctx.send(f'synced {len(synced)} slash commands')
+
+    @app_commands.command(name="ping", description="test delay")
+    async def ping(self, ctx):
+        await ctx.response.send_message(f"pong! delay: {round(bot.latency * 1000)} ms")
     
-    @bot.tree.command(name="svinfo", description="info this server")
-    async def svinfo(interaction: discord.Integration):
+    @app_commands.command(name="svinfo", description="info this server")
+    async def svinfo(self, ctx):
         embed = discord.Embed(
             title=interaction.guild.name,
             description=f"Description: \n {interaction.guild.description}\nowner: {interaction.guild.owner.name}",
             colour=0xF0C43F,
         )
         embed.set_thumbnail(url=interaction.guild.icon)
-        await interaction.response.send_message(embed=embed)
-    
-# this code for cycle commands 
-#@tasks.loop(seconds=5)
-#async def loop():
-#    print("a")
+        await ctx.response.send_message(embed=embed)
+

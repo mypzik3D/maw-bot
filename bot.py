@@ -2,12 +2,15 @@ import os
 import importlib
 import sys
 
+prefix = '>' # for commands
+modules_directory = 'mods'
+
 import discord
 from discord.ext import tasks
 from discord.ext import commands
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='>', intents=intents)
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 class bot_module:
     def __init__(self, module, name):
@@ -28,38 +31,26 @@ def load_modules_from_directory(directory):
             print(f"[v] finded module: {module_name}")
     return modules
 
-modules_directory = 'mods'
 modules = load_modules_from_directory(modules_directory)
 
-def load():
-
+async def load():
     sys.path.insert(0, os.path.abspath('.')) 
-   
     for module in modules:
         flag = 0
         if hasattr(module.module, 'noload'):
             flag = module.module.noload
         if flag == 0:
-            if hasattr(module.module, 'load'):
-                module.module.load(bot=bot)
-                print(f"[i] load module {module.name}")
-            else:
-                print(f"[e] not find def load in {module.name} module")
+            if hasattr(module.module, 'Cog'):
+                await bot.add_cog(module.module.Cog(bot))
+                print(f"[i] module {module.name}: is loading")
         else:
-            print(f"[i] module {module.name} not loaded because of var noload = 1")
-
-
-async def run_loop():
-    for module in modules:
-        if hasattr(module.module, 'loop'):
-            module.module.loop.start()
+            print(f"[i] module {module.name} not loaded, he is noload")
 
 @bot.event
 async def on_ready():
+    await load()
     await bot.tree.sync()
     print(f"[v] bot ready! he is: {bot.user.name}")
-    await run_loop()
-
 
 def load_token(file):
     f = open(file,'r')
@@ -68,6 +59,4 @@ def load_token(file):
     return(token)
 
 if __name__ == "__main__":
-    load()
     bot.run(load_token("token.txt"))
-

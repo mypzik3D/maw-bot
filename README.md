@@ -1,40 +1,36 @@
 # MaW-bot
 minimalistic and weightless bot for discord
 > ### How to use:
-> for work need install discord.py:
-> example: `pip install discord`
-> create token.txt and write it in bot token
-> and run: `python bot.py`
+> for work need install discord.py:\
+> example: `pip install discord`\
+> create token.txt and write it in bot token\
+> and run: `python bot.py`\
 
 > ### How to create your module:
-> minimal:
+> this bot load discord Cogs and in it write default discord code
+> example:
 ```python
 import discord
+from discord import app_commands # for slash commands
 from discord.ext import commands
 
-def load(bot: commands.Bot): # function called 1 time
-    # there write default bot code example:
+class Cog(commands.Cog, name="activity"): # name must be unique
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
 
-    @bot.tree.command(name="ping", description="test delay")
-    async def ping(interaction: discord.Interaction):
-        await interaction.response.send_message(f"pong! delay: {round(bot.latency * 1000)} ms")
+    @app_commands.command(name="ping", description="test delay") # for slash_commands
+    async def sl_ping(self, ctx):
+        await ctx.response.send_message(f"pong! delay: {round(bot.latency * 1000)} ms")
+    
+    @commands.Cog.listener() # for event = @bot.event
+    async def on_ready(self):
+        print("bot is ready, name {self.bot.user.name")
+
+    @commands.command(name="ping") # for default commands
+    async def com_ping(self, ctx):
+        synced = await self.bot.tree.sync()
+        await ctx.send("pong!")
 
 ```
-> with cycle:
-```python
-import discord
-from discord.ext import commands
-from discord.ext import tasks
-
-bot: commands.Bot # global definition 
-
-def load(bot: commands.Bot): # function called 1 time
-    bot = bot
-    # there write default bot code
-
-@tasks.loop(seconds=1) # for example this cycle will be repeated 1 time per second
-async def loop():
-    # there write code for cycle
-```
-> module may have variable `noload`
+> module may have variable `noload`\
 > if `noload = 1` then `def load` wont start
