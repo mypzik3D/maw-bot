@@ -4,7 +4,7 @@ minimalistic and weightless bot for discord
 > for work need install discord.py:\
 > example: `pip install discord`\
 > create token.txt and write it in bot token\
-> and run: `python bot.py`\
+> and run: `python bot.py`
 
 > ### How to create your module:
 > this bot load discord Cogs and in it write default discord code
@@ -14,7 +14,7 @@ import discord
 from discord import app_commands # for slash commands
 from discord.ext import commands
 
-class Cog(commands.Cog, name="activity"): # name must be unique
+class Cog(commands.Cog, name="example_cog"): # name must be unique
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
