@@ -10,5 +10,6 @@ class Cog(commands.Cog, name="activity"):
     
     @commands.Cog.listener()
     async def on_ready(self):
-        self.bot.change_presence(status=bot_status, activity=bot_activity)
+        await self.bot.wait_until_ready()
+        await self.bot.change_presence(status=bot_status, activity=bot_activity)
 
