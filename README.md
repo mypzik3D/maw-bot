@@ -37,4 +37,4 @@ class Cog(commands.Cog, name="example_cog"): # name must be unique
 
 ```
 > module may have variable `noload`\
-> if `noload = 1` then `def load` wont start
+> if `noload = 1` then mon not loaded
