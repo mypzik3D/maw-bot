@@ -6,6 +6,10 @@ minimalistic and weightless bot for discord
 > create token.txt and write it in bot token\
 > and run: `python bot.py`
 
+> ### Download mods:
+> go to http://maw.mypzik3d.xyz/ \
+> download mod and move to ./mods/
+
 > ### How to create your module:
 > this bot load discord Cogs and in it write default discord code
 > example:
